@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni_tribe/mvvm/view/landing_screen.dart';
+import 'package:uni_tribe/app/mvvm/view/landing_views/landing_screen.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:lottie/lottie.dart';
+import 'package:uni_tribe/app/config/app_assets.dart';
+import '../authentication_views/login_view/login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   @override
@@ -8,46 +10,37 @@ class LandingScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Background decorative circles (optional, can be removed for simplicity)
-          Positioned(
-            top: -100,
-            left: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Color(0xFF2E7D32),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: -100,
-            right: -80,
-            child: Container(
-              width: 180,
-              height: 180,
-              decoration: BoxDecoration(
-                color: Color(0xFF1B4332),
-                shape: BoxShape.circle,
-              ),
+          /// ---------- BACKGROUND LOTTIE ANIMATION ----------
+          Positioned.fill(
+            child: Lottie.asset(
+              'assets/animations/Bubbles.json',
+              fit: BoxFit.cover,
             ),
           ),
 
-          // Main content
+          /// DARK OVERLAY (optional for readability)
+          Positioned.fill(
+            child: Container(
+              color: Colors.white.withOpacity(0.75),
+            ),
+          ),
+
+          /// ---------- MAIN CONTENT ----------
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Simple image without circular border
+                // University logo
                 Image.asset(
-                  'assets/University_of_Lahore_(logo).png', // Replace with your image path
+                  AppAssets.universityofLahoreLogo,
                   width: 220,
                   height: 220,
                   fit: BoxFit.contain,
                 ),
+
                 SizedBox(height: 40),
-                // Get Started Button
+
+                /// ---------- GET STARTED BUTTON ----------
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
