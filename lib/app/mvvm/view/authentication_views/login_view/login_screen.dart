@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uni_tribe/app/config/app_assets.dart';
-import 'package:uni_tribe/app/custom_widget/custom_buttom_widget.dart';
-import 'package:uni_tribe/app/custom_widget/custom_background_widget.dart';
+import 'package:uni_tribe/app/custom_widgets/custom_button_widget.dart';
+import 'package:uni_tribe/app/custom_widgets/custom_background_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       border: Border.all(
                         color: _isPasswordFocused
                             ? Color(0xFF0A400C)
-                            : Color.fromARGB(255, 255, 255, 255),
+                            : Color.fromARGB(255, 189, 189, 189),
                         width: 2,
                       ),
                     ),
@@ -170,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
 
-                  SizedBox(height: screenHeight * 0.04),
+                  SizedBox(height: screenHeight * 0.02),
 
                   // Sign in Button
                   CustomButton(

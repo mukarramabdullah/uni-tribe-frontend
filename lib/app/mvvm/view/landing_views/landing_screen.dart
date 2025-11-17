@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:uni_tribe/app/config/app_assets.dart';
 import '../authentication_views/login_view/login_screen.dart';
+import 'package:uni_tribe/app/custom_widgets/custom_button_widget.dart';
 
 class LandingScreen extends StatelessWidget {
   @override
@@ -33,40 +34,22 @@ class LandingScreen extends StatelessWidget {
                 // University logo
                 Image.asset(
                   AppAssets.universityofLahoreLogo,
-                  width: 220,
-                  height: 220,
+                  width: 300,
+                  height: 300,
                   fit: BoxFit.contain,
                 ),
 
                 SizedBox(height: 40),
 
                 /// ---------- GET STARTED BUTTON ----------
-                GestureDetector(
-                  onTap: () {
+                CustomButton(
+                  text: 'Get Started',
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignInScreen()),
                     );
                   },
-                  child: Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(horizontal: 40),
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF2E7D32),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Get Started',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
