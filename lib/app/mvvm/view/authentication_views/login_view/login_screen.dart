@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uni_tribe/app/config/app_assets.dart';
 import 'package:uni_tribe/app/custom_widgets/custom_button_widget.dart';
 import 'package:uni_tribe/app/custom_widgets/custom_background_widget.dart';
+import 'package:get/get.dart';
+import 'package:uni_tribe/app/config/app_routes.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -158,7 +160,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoutes.forgotPasswordView);
+                      },
                       child: Text(
                         'Forget Password ?',
                         style: TextStyle(
