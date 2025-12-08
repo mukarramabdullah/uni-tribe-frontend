@@ -180,11 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   CustomButton(
                     text: 'Sign in',
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('Sign in functionality will be added')),
-                      );
+                      Get.offNamed(AppRoutes.homeScreen);
                     },
                   ),
 

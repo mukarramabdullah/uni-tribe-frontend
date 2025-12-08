@@ -11,11 +11,14 @@ class customBackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        /// Lottie animated background
+        /// Lottie animated background with opacity
         Positioned.fill(
-          child: Lottie.asset(
-            'assets/animations/AppBackground.json',
-            fit: BoxFit.cover,
+          child: Opacity(
+            opacity: 0.5,
+            child: Lottie.asset(
+              'assets/animations/Bubbles.json',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
 
