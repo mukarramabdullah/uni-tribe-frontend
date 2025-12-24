@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_tribe/app/mvvm/view_model/navigation_controller.dart';
 import 'package:uni_tribe/app/mvvm/view/home_view/home_view.dart';
+import 'package:uni_tribe/app/mvvm/view/academic_views/academic_view.dart';
+import 'package:uni_tribe/app/mvvm/view/event_views/event.dart';
+import 'package:uni_tribe/app/mvvm/view/settings_views/settings_view.dart';
 import 'package:uni_tribe/app/config/app_colors.dart';
 import 'package:uni_tribe/app/custom_widgets/custom_bottom_nav_bar_widget.dart';
 
@@ -28,16 +31,16 @@ class MainScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFF1A1D26),
         body: Obx(() {
-          // Simple switch to show different screens based on tab
+          // Show different screens based on selected tab index
           switch (navController.currentIndex.value) {
             case 0:
               return const HomeView();
             case 1:
-              return _buildPlaceholderScreen('Map', Icons.map_rounded);
+              return const EventsScreen();
             case 2:
-              return _buildPlaceholderScreen('Directory', Icons.people_rounded);
+              return const AcademicResourcesView();
             case 3:
-              return _buildPlaceholderScreen('Profile', Icons.person_rounded);
+              return const SettingsScreen();
             default:
               return const HomeView();
           }

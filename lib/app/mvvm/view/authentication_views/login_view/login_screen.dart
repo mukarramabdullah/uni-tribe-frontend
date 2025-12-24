@@ -180,7 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   CustomButton(
                     text: 'Sign in',
                     onPressed: () {
-                      Get.offNamed(AppRoutes.homeScreen);
+                      Get.offNamed(AppRoutes.profileSetup1);
                     },
                   ),
 

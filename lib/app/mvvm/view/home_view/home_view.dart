@@ -18,7 +18,6 @@ class _HomeViewState extends State<HomeView> {
   String userName = "Alex";
   String userAvatar = "";
 
-  // Notification banners (scrollable)
   // TODO: Fetch banners from backend API
   List<Map<String, dynamic>> notificationBanners = [
     {
@@ -112,7 +111,7 @@ class _HomeViewState extends State<HomeView> {
                           title: 'Academic\nResources',
                           subtitle:
                               'Find course materials, library access & grades.',
-                          iconColor: const Color(0xFF2D5F3F),
+                          iconColor: Colors.grey[400],
                           onTap: () {
                             Get.offNamed(AppRoutes.academicView);
                           },
@@ -124,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                           icon: Icons.event_rounded,
                           title: 'Events',
                           subtitle: 'Discover workshops, clubs & campus life.',
-                          iconColor: const Color(0xFF2D5F3F),
+                          iconColor: Colors.grey[400],
                           onTap: () {
                             Get.toNamed(AppRoutes.eventsScreen);
                           },
@@ -225,7 +224,7 @@ class _HomeViewState extends State<HomeView> {
             // Chat Icon
             GestureDetector(
               onTap: () {
-                // Navigator.of(context).pushNamed(AppRoutes.chat);
+                Get.toNamed(AppRoutes.chatView);
               },
               child: Container(
                 width: 50,
@@ -379,9 +378,11 @@ class _HomeViewState extends State<HomeView> {
     required IconData icon,
     required String title,
     required String subtitle,
-    required Color iconColor,
+    Color? iconColor,
     required VoidCallback onTap,
   }) {
+    final Color effectiveColor = iconColor ?? Colors.grey;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -403,10 +404,10 @@ class _HomeViewState extends State<HomeView> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.1),
+                color: effectiveColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: iconColor, size: 28),
+              child: Icon(icon, color: effectiveColor, size: 28),
             ),
             const SizedBox(height: 16),
             Text(
@@ -459,9 +460,9 @@ class _HomeViewState extends State<HomeView> {
                 color: const Color(0xFF2D5F3F).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.search_rounded,
-                color: Color(0xFF2D5F3F),
+                color: Colors.grey[400],
                 size: 28,
               ),
             ),

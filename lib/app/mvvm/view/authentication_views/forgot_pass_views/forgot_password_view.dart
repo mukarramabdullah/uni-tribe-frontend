@@ -146,6 +146,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       //   //   },
                       //   // );
                       // }
+                      Get.toNamed(
+                        AppRoutes.forgotPasswordOtpView,
+                        arguments: {
+                          'email': _emailController.text.trim(),
+                          'from': 'reset',
+                        },
+                      );
                     },
                   ),
 

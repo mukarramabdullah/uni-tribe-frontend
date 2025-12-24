@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uni_tribe/app/config/app_colors.dart';
 
 Widget buildBottomNavBar({
   required int currentIndex,
@@ -8,10 +7,10 @@ Widget buildBottomNavBar({
   return Container(
     height: 80,
     decoration: BoxDecoration(
-      color: const Color(0xFF1C1F26),
+      color: Colors.white,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.3),
+          color: Colors.black.withOpacity(0.1),
           blurRadius: 10,
           offset: const Offset(0, -2),
         ),
@@ -28,20 +27,20 @@ Widget buildBottomNavBar({
             onTap: () => onTap(0),
           ),
           _buildNavItem(
-            icon: Icons.map_rounded,
-            label: 'Map',
+            icon: Icons.event_rounded,
+            label: 'Events',
             isActive: currentIndex == 1,
             onTap: () => onTap(1),
           ),
           _buildNavItem(
-            icon: Icons.people_rounded,
-            label: 'Directory',
+            icon: Icons.school_rounded,
+            label: 'Academic',
             isActive: currentIndex == 2,
             onTap: () => onTap(2),
           ),
           _buildNavItem(
-            icon: Icons.person_rounded,
-            label: 'Profile',
+            icon: Icons.settings_rounded,
+            label: 'Settings',
             isActive: currentIndex == 3,
             onTap: () => onTap(3),
           ),
@@ -57,25 +56,21 @@ Widget _buildNavItem({
   required bool isActive,
   required VoidCallback onTap,
 }) {
+  const Color activeColor = Color(0xFF36E278);
+  final Color inactiveColor = Colors.grey[400]!;
+
   return Expanded(
     child: Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
+        splashColor: activeColor.withOpacity(0.2),
+        highlightColor: activeColor.withOpacity(0.1),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            gradient: isActive
-                ? LinearGradient(
-                    colors: [
-                      AppColors.gradientStart.withOpacity(0.3),
-                      AppColors.gradientEnd.withOpacity(0.3),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
+            color: isActive ? activeColor.withOpacity(0.1) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -84,14 +79,14 @@ Widget _buildNavItem({
             children: [
               Icon(
                 icon,
-                color: isActive ? AppColors.gradientStart : Colors.grey[500],
+                color: isActive ? activeColor : inactiveColor,
                 size: 28,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: TextStyle(
-                  color: isActive ? AppColors.gradientStart : Colors.grey[500],
+                  color: isActive ? activeColor : inactiveColor,
                   fontSize: 11,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                 ),

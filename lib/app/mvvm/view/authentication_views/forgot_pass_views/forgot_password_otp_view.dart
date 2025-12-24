@@ -147,10 +147,9 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
 
       // For now, just show success and navigate
       _showSnackBar('Registration successful!');
-      
+
       // Navigate to login or home
-      Get.offAllNamed(AppRoutes.loginScreen);
-      
+      Get.offAllNamed(AppRoutes.forgotPasswordNewPassView);
     } else if (from == 'reset') {
       // Handle password reset flow - pass email and OTP code
       Get.toNamed(
@@ -212,7 +211,8 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(Icons.arrow_back_ios_new, size: 20),
+                            child:
+                                const Icon(Icons.arrow_back_ios_new, size: 20),
                           ),
                         ),
                       ],
@@ -247,7 +247,8 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
                         const SizedBox(height: 12),
                         Text(
                           'We sent a 6 digit code to your email',
-                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -298,8 +299,9 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
                                     : 'Resend OTP in ${_formatTime(_resendTimer)}',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      _canResend ? Colors.black : Colors.grey[400],
+                                  color: _canResend
+                                      ? Colors.black
+                                      : Colors.grey[400],
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
