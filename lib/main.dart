@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_tribe/app/mvvm/view/landing_views/landing_screen.dart';
 import 'package:uni_tribe/app/config/app_routes.dart';
-
+// import 'package:uni_tribe/app/mvvm/view/landing_views/landing_screen.dart';
 void main() {
   runApp(const MyApp());
 }
