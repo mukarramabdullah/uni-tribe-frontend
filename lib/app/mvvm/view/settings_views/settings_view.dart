@@ -21,6 +21,13 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments as Map<String, dynamic>?;
+    final displayName = args?['name'] ?? name ?? 'Alex Thompson';
+    final displayDegree = args?['degree'] ?? degree ?? 'Computer Science';
+    final displaySemester = args?['semester'] ?? semester ?? '4';
+    final displayGender = args?['gender'] ?? gender ?? 'Male';
+    final displayProfileImage = args?['profileImagePath'] ?? profileImagePath;
+
     return Scaffold(
       body: customBackgroundWidget(
         child: SafeArea(
@@ -65,10 +72,10 @@ class SettingsScreen extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 70,
                       backgroundColor: Colors.grey[300],
-                      backgroundImage: profileImagePath != null
-                          ? AssetImage(profileImagePath!)
+                      backgroundImage: displayProfileImage != null
+                          ? AssetImage(displayProfileImage)
                           : null,
-                      child: profileImagePath == null
+                      child: displayProfileImage == null
                           ? const Icon(
                               Icons.person,
                               size: 70,
@@ -81,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
 
                   // Name
                   Text(
-                    name ?? 'Alex Thompson',
+                    displayName,
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -92,7 +99,7 @@ class SettingsScreen extends StatelessWidget {
 
                   // Degree
                   Text(
-                    degree ?? 'Computer Science',
+                    displayDegree,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[700],
@@ -105,14 +112,14 @@ class SettingsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _buildInfoCard(
-                          title: semester ?? '4',
+                          title: displaySemester,
                           subtitle: 'Semester',
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: _buildInfoCard(
-                          title: gender ?? 'Male',
+                          title: displayGender,
                           subtitle: 'Gender',
                         ),
                       ),

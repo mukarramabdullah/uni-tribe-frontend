@@ -5,7 +5,9 @@ import 'package:uni_tribe/app/config/app_routes.dart';
 import 'package:get/get.dart';
 
 class RegistrationSuccessDialog extends StatelessWidget {
-  const RegistrationSuccessDialog({Key? key}) : super(key: key);
+  final Map<String, dynamic>? arguments;
+
+  const RegistrationSuccessDialog({Key? key, this.arguments}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,16 @@ class RegistrationSuccessDialog extends StatelessWidget {
             CustomButton(
               text: 'Confirm',
               onPressed: () {
-                Get.offAllNamed(
-                  AppRoutes.homeScreen,
-                ); // Clears stack and goes to login
+                if (arguments != null) {
+                  Get.offAllNamed(
+                    AppRoutes.homeScreen,
+                    arguments: arguments,
+                  );
+                } else {
+                  Get.offAllNamed(
+                    AppRoutes.homeScreen,
+                  );
+                }
               },
             ),
           ],
@@ -59,12 +68,13 @@ class RegistrationSuccessDialog extends StatelessWidget {
 }
 
 // Function to show the dialog
-void showRegistrationSuccessDialog(BuildContext context) {
+void showRegistrationSuccessDialog(BuildContext context,
+    {Map<String, dynamic>? arguments}) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return const RegistrationSuccessDialog();
+      return RegistrationSuccessDialog(arguments: arguments);
     },
   );
 }

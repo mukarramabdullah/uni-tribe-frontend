@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:uni_tribe/app/custom_widgets/custom_button_widget.dart';
 import 'package:uni_tribe/app/custom_widgets/custom_background_widget.dart';
 import 'package:uni_tribe/app/custom_widgets/dialogs/profile_setup_successful_dialog.dart';
+import 'package:get/get.dart';
 
 class AddProfilePhotoScreen extends StatefulWidget {
   const AddProfilePhotoScreen({Key? key}) : super(key: key);
@@ -108,16 +109,35 @@ class _AddProfilePhotoScreenState extends State<AddProfilePhotoScreen> {
       // TODO: Upload image to your backend/storage
     }
 
-    // Show registration success dialog
-    showRegistrationSuccessDialog(context);
+    // Collect incoming args from previous screen and include image path
+    final prevArgs = Get.arguments as Map<String, dynamic>?;
+    final args = {
+      'name': prevArgs?['name'],
+      'degree': prevArgs?['degree'],
+      'semester': prevArgs?['semester'],
+      'gender': prevArgs?['gender'],
+      'profileImagePath': _selectedImage?.path,
+    };
+
+    // Show registration success dialog and navigate to Settings with args
+    showRegistrationSuccessDialog(context, arguments: args);
   }
 
   void _handleSkip() {
     // User chose to skip profile photo
     print('Skipped profile photo');
 
-    // Show registration success dialog
-    showRegistrationSuccessDialog(context);
+    final prevArgs = Get.arguments as Map<String, dynamic>?;
+    final args = {
+      'name': prevArgs?['name'],
+      'degree': prevArgs?['degree'],
+      'semester': prevArgs?['semester'],
+      'gender': prevArgs?['gender'],
+      'profileImagePath': null,
+    };
+
+    // Show registration success dialog and navigate to Settings with args
+    showRegistrationSuccessDialog(context, arguments: args);
   }
 
   @override
@@ -150,11 +170,28 @@ class _AddProfilePhotoScreenState extends State<AddProfilePhotoScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Back Button
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () => Navigator.pop(context),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.centerLeft,
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Color(0xFF1A1A1A),
+                            size: 24,
+                          ),
+                        ),
                       ),
 
                       SizedBox(height: size.height * 0.02),
@@ -307,4 +344,3 @@ class _AddProfilePhotoScreenState extends State<AddProfilePhotoScreen> {
     );
   }
 }
-

@@ -1,5 +1,6 @@
 import 'package:uni_tribe/app/mvvm/view/authentication_views/forgot_pass_views/forgot_password_view.dart';
 import 'package:uni_tribe/app/mvvm/view/authentication_views/forgot_pass_views/forgot_password_otp_view.dart';
+import 'package:uni_tribe/app/mvvm/view/authentication_views/forgot_pass_views/forgot_pass_new_pass_view.dart';
 import 'package:uni_tribe/app/mvvm/view/home_view/home_view.dart';
 import 'package:uni_tribe/app/mvvm/view/main_scaffold/main_scaffold.dart';
 import 'package:uni_tribe/app/mvvm/view/academic_views/academic_view.dart';
@@ -64,6 +65,11 @@ abstract class AppPages {
       binding: BindingsBuilder(() {}),
     ),
     GetPage(
+      name: AppRoutes.forgotPasswordNewPassView,
+      page: () => const ForgotPasswordNewPassView(),
+      binding: BindingsBuilder(() {}),
+    ),
+    GetPage(
       name: AppRoutes.homeScreen,
       page: () => const MainScaffold(),
       binding: BindingsBuilder(() {}),
@@ -112,7 +118,9 @@ abstract class AppPages {
       name: AppRoutes.chatView,
       page: () => ChatScreen(),
       binding: BindingsBuilder(() {
-        Get.put(ChatController());
+        if (!Get.isRegistered<ChatController>()) {
+          Get.put(ChatController(), permanent: true);
+        }
       }),
     ),
   ];

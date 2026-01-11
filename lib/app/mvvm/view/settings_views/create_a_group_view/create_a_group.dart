@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:uni_tribe/app/mvvm/model/chat_controller.dart';
+import 'package:uni_tribe/app/custom_widgets/dialogs/create_a_group_successful_dialog.dart';
+import 'package:uni_tribe/app/config/app_routes.dart';
+
 class CreateGroupScreen extends StatefulWidget {
   const CreateGroupScreen({Key? key}) : super(key: key);
 
@@ -185,8 +188,10 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
       return;
     }
 
-    // Get the ChatController
-    final ChatController chatController = Get.find<ChatController>();
+    // Get or create the ChatController so groups update dynamically
+    final ChatController chatController = Get.isRegistered<ChatController>()
+        ? Get.find<ChatController>()
+        : Get.put(ChatController(), permanent: true);
 
     // Auto-detect category based on group name and description
     final detectedCategory = _detectCategory(
@@ -212,18 +217,17 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
     // Add group to controller
     chatController.addGroup(newGroup);
 
-    // Show success message
-    Get.snackbar(
-      'Success',
-      'Group "${newGroup.name}" created successfully!',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: const Color(0xFF4CAF50),
-      colorText: Colors.white,
-      duration: const Duration(seconds: 2),
-    );
-
-    // Navigate back
-    Get.back();
+    // Show success dialog then navigate to Chat when dismissed
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => const CongratsPopup(),
+    ).then((_) {
+      // Close CreateGroupScreen
+      Get.back();
+      // Open Chat screen so user sees the newly created group
+      Get.toNamed(AppRoutes.chatView);
+    });
   }
 
   @override

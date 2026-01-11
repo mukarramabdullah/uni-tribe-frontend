@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uni_tribe/app/custom_widgets/custom_background_widget.dart';
 import 'dart:io';
 
 class EditProfileScreen extends StatefulWidget {
@@ -36,7 +37,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _fullNameController = TextEditingController(text: widget.fullName);
     _departmentController = TextEditingController(text: widget.department);
     _semesterController = TextEditingController(text: widget.semester);
-    _selectedGender = widget.gender;
+    // Ensure the dropdown has a valid initial value. If `widget.gender` is
+    // empty or not one of the expected values, fall back to 'Male'. This
+    // prevents the DropdownButton from throwing an error when given a value
+    // that isn't present in `items`.
+    _selectedGender = (widget.gender.isNotEmpty &&
+            ['Male', 'Female', 'Other'].contains(widget.gender))
+        ? widget.gender
+        : 'Male';
   }
 
   @override
@@ -117,13 +125,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFE8F5E9),
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            width: 44,
+            height: 44,
+            margin: const EdgeInsets.only(left: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.arrow_back,
+              color: Color(0xFF1A1A1A),
+              size: 24,
+            ),
+          ),
         ),
         title: const Text(
           'Edit Profile',
@@ -135,164 +164,168 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Profile Photo Section
-            Center(
-              child: GestureDetector(
-                onTap: _showImageSourceDialog,
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFF2ECC71),
-                          width: 4,
-                        ),
-                      ),
-                      child: ClipOval(
-                        child: _selectedImage != null
-                            ? Image.file(
-                                _selectedImage!,
-                                fit: BoxFit.cover,
-                              )
-                            : widget.profileImageUrl != null
-                                ? Image.network(
-                                    widget.profileImageUrl!,
+      body: customBackgroundWidget(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Profile Photo Section
+                Center(
+                  child: GestureDetector(
+                    onTap: _showImageSourceDialog,
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: const Color(0xFF2ECC71),
+                              width: 4,
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: _selectedImage != null
+                                ? Image.file(
+                                    _selectedImage!,
                                     fit: BoxFit.cover,
                                   )
-                                : Image.asset(
-                                    'assets/default_avatar.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF2ECC71),
-                          shape: BoxShape.circle,
+                                : widget.profileImageUrl != null
+                                    ? Image.network(
+                                        widget.profileImageUrl!,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/default_avatar.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 20,
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF2ECC71),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Center(
-              child: Text(
-                'Change Profile Photo',
-                style: TextStyle(
-                  color: Color(0xFF2ECC71),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Full Name Field
-            _buildLabel('Full Name'),
-            _buildTextField(
-              controller: _fullNameController,
-              hintText: widget.fullName,
-            ),
-            const SizedBox(height: 20),
-
-            // Department Field
-            _buildLabel('Department'),
-            _buildTextField(
-              controller: _departmentController,
-              hintText: widget.department,
-            ),
-            const SizedBox(height: 20),
-
-            // Semester Field
-            _buildLabel('Semester'),
-            _buildTextField(
-              controller: _semesterController,
-              hintText: widget.semester,
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 20),
-
-            // Gender Field
-            _buildLabel('Gender'),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _selectedGender,
-                  isExpanded: true,
-                  icon:
-                      const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
                   ),
-                  items: ['Male', 'Female', 'Other'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      setState(() {
-                        _selectedGender = newValue;
-                      });
-                    }
-                  },
                 ),
-              ),
-            ),
-            const SizedBox(height: 40),
+                const SizedBox(height: 10),
+                const Center(
+                  child: Text(
+                    'Change Profile Photo',
+                    style: TextStyle(
+                      color: Color(0xFF2ECC71),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
 
-            // Save Button
-            SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: ElevatedButton(
-                onPressed: _saveChanges,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2ECC71),
-                  shape: RoundedRectangleBorder(
+                // Full Name Field
+                _buildLabel('Full Name'),
+                _buildTextField(
+                  controller: _fullNameController,
+                  hintText: widget.fullName,
+                ),
+                const SizedBox(height: 20),
+
+                // Department Field
+                _buildLabel('Department'),
+                _buildTextField(
+                  controller: _departmentController,
+                  hintText: widget.department,
+                ),
+                const SizedBox(height: 20),
+
+                // Semester Field
+                _buildLabel('Semester'),
+                _buildTextField(
+                  controller: _semesterController,
+                  hintText: widget.semester,
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 20),
+
+                // Gender Field
+                _buildLabel('Gender'),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  elevation: 0,
-                ),
-                child: const Text(
-                  'Save Changes',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedGender,
+                      isExpanded: true,
+                      icon: const Icon(Icons.keyboard_arrow_down,
+                          color: Colors.grey),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                      items: ['Male', 'Female', 'Other'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedGender = newValue;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 40),
+
+                // Save Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: ElevatedButton(
+                    onPressed: _saveChanges,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF2ECC71),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Save Changes',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-            const SizedBox(height: 20),
-          ],
+          ),
         ),
       ),
     );

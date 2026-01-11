@@ -28,8 +28,22 @@ class Group {
 class ChatController extends GetxController {
   final RxList<Group> groups = <Group>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    print('🟢 ChatController initialized: ${identityHashCode(this)}');
+  }
+
+  @override
+  void onClose() {
+    print('🔴 ChatController disposed: ${identityHashCode(this)}');
+    super.onClose();
+  }
+
   void addGroup(Group group) {
     groups.insert(0, group);
+    print('🟢 addGroup: added "${group.name}" (total: ${groups.length})');
+    print('🟢 current groups: ${groups.map((g) => g.name).toList()}');
   }
 
   Map<String, List<Group>> get groupedByCategory {

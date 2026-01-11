@@ -60,11 +60,28 @@ class _ProfileCompletionScreenState extends State<ProfileCompletionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Back Button
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () => Navigator.pop(context),
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.centerLeft,
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Color(0xFF1A1A1A),
+                            size: 24,
+                          ),
+                        ),
                       ),
 
                       const SizedBox(height: 24),
@@ -273,7 +290,15 @@ class _ProfileCompletionScreenState extends State<ProfileCompletionScreen> {
                 child: CustomButton(
                   text: 'Completed Profile',
                   onPressed: () {
-                    Get.toNamed(AppRoutes.profileSetup2);
+                    Get.toNamed(
+                      AppRoutes.profileSetup2,
+                      arguments: {
+                        'name': _nameController.text,
+                        'degree': _degreeController.text,
+                        'semester': _selectedSemester,
+                        'gender': _selectedGender,
+                      },
+                    );
                     print('Name: ${_nameController.text}');
                     print('Degree: ${_degreeController.text}');
                     print('Semester: $_selectedSemester');

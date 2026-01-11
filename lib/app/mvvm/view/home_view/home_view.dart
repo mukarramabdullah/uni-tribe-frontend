@@ -18,6 +18,24 @@ class _HomeViewState extends State<HomeView> {
   String userName = "Alex";
   String userAvatar = "";
 
+  @override
+  void initState() {
+    super.initState();
+    // Read name from navigation arguments if provided (e.g. after profile setup)
+    final args = Get.arguments as Map<String, dynamic>?;
+    if (args != null) {
+      final nameArg = args['name'] ?? args['fullName'] ?? args['full_name'];
+      if (nameArg != null && nameArg.toString().trim().isNotEmpty) {
+        userName = nameArg.toString().trim();
+      }
+
+      final imgArg = args['profileImagePath'] ?? args['profileImageUrl'];
+      if (imgArg != null) {
+        userAvatar = imgArg.toString();
+      }
+    }
+  }
+
   // TODO: Fetch banners from backend API
   List<Map<String, dynamic>> notificationBanners = [
     {
@@ -89,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
 
                   // Greeting
                   Text(
-                    'Good ${_getGreeting()}, $userName',
+                    'Welcome $userName',
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
